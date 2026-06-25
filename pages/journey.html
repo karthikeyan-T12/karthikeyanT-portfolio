@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Journey — Karthikeyan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    try {
+      if ((localStorage.getItem('theme') || 'dark') === 'light') {
+        document.documentElement.classList.add('light-mode');
+      }
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="../css/main.css" />
+  <style>
+    .page-hero { padding: 5rem 0 3rem; border-bottom: 1px solid var(--border); }
+
+    /* ── Timeline ─────────────────────────────────────── */
+    .timeline-wrap { padding: 4rem 0; max-width: 760px; margin: 0 auto; }
+
+    .timeline {
+      position: relative; padding-left: 3rem;
+    }
+    .timeline::before {
+      content: ''; position: absolute;
+      left: 20px; top: 0; bottom: 0; width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--border) 8%, var(--border) 92%, transparent);
+    }
+
+    .timeline-item {
+      position: relative; margin-bottom: 3rem;
+      opacity: 0; transform: translateX(-20px);
+      transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+    }
+    .timeline-item.visible { opacity: 1; transform: none; }
+
+    /* Dot */
+    .timeline-dot {
+      position: absolute; left: -3rem; top: 0.35rem;
+      width: 40px; height: 40px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; transition: border-color var(--dur);
+      z-index: 1;
+    }
+    .timeline-item:hover .timeline-dot { border-color: var(--border-bright); }
+    .timeline-item.type-goal .timeline-dot {
+      border-color: var(--emerald); background: var(--emerald-glow2);
+    }
+    .timeline-item.type-milestone .timeline-dot { border-color: rgba(251, 191, 36, 0.4); }
+
+    /* Card */
+    .timeline-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.25rem 1.5rem;
+      transition: border-color var(--dur), transform var(--dur);
+    }
+    .timeline-item:hover .timeline-card {
+      border-color: var(--border-bright);
+      transform: translateX(4px);
+    }
+    .timeline-item.type-goal .timeline-card { border-color: rgba(16,185,129,0.2); }
+
+    .timeline-year {
+      font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em;
+      color: var(--emerald); text-transform: uppercase; margin-bottom: 0.35rem;
+    }
+    .timeline-title {
+      font-family: var(--font-display); font-size: 1.05rem; font-weight: 600;
+      color: var(--text-primary); margin-bottom: 0.4rem;
+    }
+    .timeline-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7; }
+
+    .type-tag {
+      display: inline-block; font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.15rem 0.5rem; border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+    .type-milestone .type-tag { background: rgba(251,191,36,0.12); color: #fbbf24; }
+    .type-skill .type-tag { background: var(--emerald-glow2); color: var(--emerald); }
+    .type-project .type-tag { background: rgba(99,102,241,0.12); color: #818cf8; }
+    .type-research .type-tag { background: rgba(236,72,153,0.1); color: #f472b6; }
+    .type-goal .type-tag { background: var(--emerald-glow2); color: var(--emerald); }
+
+    /* Legend */
+    .legend {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      margin-bottom: 3rem; padding: 1rem 1.25rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div id="loader"><div class="loader-ring"></div></div>
+  <div id="nav-mount"></div>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <span class="section-label">Learning journey</span>
+        <h1 class="section-title">How I got <em>here</em></h1>
+        <p class="section-desc">Every milestone, skill unlocked, and lesson learned — from first line of code to now.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="timeline-wrap">
+          <div class="legend">
+            <div class="legend-item"><span style="color:#fbbf24">★</span> Milestone</div>
+            <div class="legend-item"><span style="color:var(--emerald)">▲</span> Skill</div>
+            <div class="legend-item"><span style="color:#818cf8">◆</span> Project</div>
+            <div class="legend-item"><span style="color:#f472b6">✦</span> Research</div>
+            <div class="legend-item"><span style="color:var(--emerald)">🎯</span> Goal</div>
+          </div>
+          <div class="timeline" id="timeline"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/shared.js"></script>
+  <script>
+    document.getElementById('nav-mount').innerHTML = buildNav('../');
+    document.getElementById('footer-mount').innerHTML = buildFooter('../');
+
+    const typeLabels = {
+      milestone: 'Milestone', skill: 'Skill', project: 'Project',
+      research: 'Research', goal: 'Goal'
+    };
+
+    const tl = document.getElementById('timeline');
+    tl.innerHTML = PORTFOLIO_DATA.journey.map((item, i) => `
+      <div class="timeline-item type-${item.type}" style="transition-delay:${i * 0.08}s">
+        <div class="timeline-dot">${item.icon}</div>
+        <div class="timeline-card">
+          <div class="type-tag">${typeLabels[item.type] || item.type}</div>
+          <div class="timeline-year">${item.year}</div>
+          <div class="timeline-title">${item.title}</div>
+          <div class="timeline-desc">${item.description}</div>
+        </div>
+      </div>
+    `).join('');
+
+    // Animate timeline items
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.timeline-item').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>

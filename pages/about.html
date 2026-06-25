@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Karthikeyan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    try {
+      if ((localStorage.getItem('theme') || 'dark') === 'light') {
+        document.documentElement.classList.add('light-mode');
+      }
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="../css/main.css" />
+  <style>
+    .page-hero {
+      padding: 5rem 0 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Profile photo section ─────────────────────── */
+    .about-profile-section {
+      display: flex; align-items: center; gap: 2.5rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 2rem 2.5rem;
+      margin-bottom: 3rem;
+      position: relative; overflow: hidden;
+    }
+    .about-profile-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(16,185,129,0.04), transparent 60%);
+      pointer-events: none;
+    }
+    .about-profile-meta { flex: 1; }
+    .about-profile-name {
+      font-family: var(--font-display); font-size: 1.6rem; font-weight: 700;
+      color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 0.2rem;
+    }
+    .about-profile-role {
+      font-family: var(--font-mono); font-size: 0.82rem;
+      color: var(--emerald); margin-bottom: 0.85rem;
+    }
+    .about-profile-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .about-profile-links a {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.8rem; color: var(--text-secondary);
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.3rem 0.7rem;
+      transition: color var(--dur), border-color var(--dur);
+    }
+    .about-profile-links a:hover { color: var(--emerald); border-color: var(--border-bright); }
+
+    .about-grid {
+      display: grid; grid-template-columns: 300px 1fr;
+      gap: 4rem; align-items: start; padding: 2rem 0 4rem;
+    }
+    .about-sidebar { position: sticky; top: calc(var(--nav-h) + 2rem); }
+
+    .quick-info-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 1.25rem;
+    }
+    .quick-info-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-mono); font-size: 0.72rem;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--emerald);
+    }
+    .quick-info-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.85rem; }
+    .quick-info-item { display: flex; align-items: flex-start; gap: 0.6rem; }
+    .quick-info-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.05rem; }
+    .quick-info-label { font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; }
+    .quick-info-value { font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.1rem; }
+
+    .about-body h3 {
+      font-family: var(--font-display); font-size: 1.3rem; font-weight: 600;
+      color: var(--text-primary); margin: 2.5rem 0 1rem;
+    }
+    .about-body h3:first-child { margin-top: 0; }
+    .about-body p { color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.8; }
+
+    .interest-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem; margin-top: 1.25rem;
+    }
+    .interest-item {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1rem;
+      transition: border-color var(--dur);
+    }
+    .interest-item:hover { border-color: var(--border-bright); }
+    .interest-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .interest-name { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
+    .interest-desc { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+    .edu-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+      display: flex; gap: 1.25rem; align-items: flex-start;
+    }
+    .edu-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: var(--emerald-glow2); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+    .edu-degree { font-weight: 600; color: var(--text-primary); margin-bottom: 0.2rem; }
+    .edu-institution { font-size: 0.85rem; color: var(--text-secondary); }
+    .edu-meta { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.3rem; font-family: var(--font-mono); }
+
+    @media (max-width: 900px) {
+      .about-profile-section { flex-direction: column; text-align: center; }
+      .about-profile-links { justify-content: center; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-sidebar { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loader"><div class="loader-ring"></div></div>
+  <div id="nav-mount"></div>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <span class="section-label">About me</span>
+        <h1 class="section-title">The person <em>behind</em> the code</h1>
+      </div>
+    </section>
+
+    <div class="container" style="padding-top:3rem">
+      <!-- Premium Profile Banner -->
+      <div class="about-profile-section reveal" id="about-profile-banner">
+        <div class="kt-logo-wrap">
+          <div class="kt-logo-ring"></div>
+          <div class="kt-logo-outer">
+            <div class="kt-logo-glass">
+              <span class="kt-logo-mark">K<span>T</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="about-profile-meta">
+          <div class="about-profile-name">Karthikeyan.T</div>
+          <div class="about-profile-role">// CS (IoT) Student · Java Developer · Backend Developer</div>
+          <div class="about-profile-links">
+            <a href="mailto:t.karthikeyan.0712@gmail.com">✉ t.karthikeyan.0712@gmail.com</a>
+            <a href="https://github.com/karthikeyan" target="_blank" rel="noopener">⌥ GitHub</a>
+            <a href="https://linkedin.com/in/karthikeyan" target="_blank" rel="noopener">🔗 LinkedIn</a>
+            <a href="pages/resume.html" class="btn btn-primary btn-sm" style="border-radius:8px">↓ Resume</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-grid">
+        <!-- Sidebar -->
+        <aside class="about-sidebar reveal">
+          <div class="quick-info-card">
+            <div class="quick-info-header">// Quick Info</div>
+            <div class="quick-info-body">
+              <div class="quick-info-item">
+                <span class="quick-info-icon">🎓</span>
+                <div>
+                  <div class="quick-info-label">Degree</div>
+                  <div class="quick-info-value">B.Tech CSE (IoT)</div>
+                </div>
+              </div>
+              <div class="quick-info-item">
+                <span class="quick-info-icon">📅</span>
+                <div>
+                  <div class="quick-info-label">Batch</div>
+                  <div class="quick-info-value">2024 – 2028</div>
+                </div>
+              </div>
+              <div class="quick-info-item">
+                <span class="quick-info-icon">☕</span>
+                <div>
+                  <div class="quick-info-label">Primary Language</div>
+                  <div class="quick-info-value">Java</div>
+                </div>
+              </div>
+              <div class="quick-info-item">
+                <span class="quick-info-icon">📍</span>
+                <div>
+                  <div class="quick-info-label">Location</div>
+                  <div class="quick-info-value">India</div>
+                </div>
+              </div>
+              <div class="quick-info-item">
+                <span class="quick-info-icon">🎯</span>
+                <div>
+                  <div class="quick-info-label">Goal</div>
+                  <div class="quick-info-value">Software Engineer</div>
+                </div>
+              </div>
+              <div class="quick-info-item">
+                <span class="quick-info-icon">💡</span>
+                <div>
+                  <div class="quick-info-label">Focus</div>
+                  <div class="quick-info-value">DSA · Backend · IoT</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a href="resume.html" class="btn btn-primary" style="width:100%;justify-content:center;display:flex">↓ View Resume</a>
+        </aside>
+
+        <!-- Body -->
+        <div class="about-body">
+          <div class="reveal">
+            <h3>Hi, I'm Karthikeyan 👋</h3>
+            <p>
+              I'm a Computer Science and Engineering student specializing in IoT, currently in my B.Tech program.
+              I'm drawn to the intersection of software engineering and connected systems — where clean code
+              meets the physical world.
+            </p>
+            <p>
+              Java is my primary language right now, and I'm actively studying Data Structures and Algorithms
+              to build the kind of problem-solving instincts that matter in engineering interviews and on the job.
+            </p>
+            <p>
+              Alongside academics, I've been exploring web development (HTML, CSS, JavaScript), building small
+              desktop tools with Python, and researching IoT architectures and Digital Twin technology as part
+              of my specialization.
+            </p>
+          </div>
+
+          <div class="reveal">
+            <h3>What drives me</h3>
+            <p>
+              I believe the best engineers are perpetual learners — people who stay curious, ship real things,
+              and aren't afraid to start from scratch when they realize there's a better way. That's how I
+              try to approach every project and every concept I pick up.
+            </p>
+            <p>
+              My long-term goal is to work as a software engineer building systems that actually matter —
+              whether that's a backend service handling millions of requests or an IoT platform connecting
+              industrial infrastructure.
+            </p>
+            <p>
+              I'm particularly excited about the convergence of IoT and cloud computing — where edge devices
+              talk to distributed systems in real time. That's the kind of engineering challenge I want to be
+              solving a few years from now.
+            </p>
+          </div>
+
+          <div class="reveal">
+            <h3>Interests & research areas</h3>
+            <div class="interest-grid">
+              <div class="interest-item">
+                <div class="interest-icon">☕</div>
+                <div class="interest-name">Java Development</div>
+                <div class="interest-desc">OOP, clean architecture, backend systems</div>
+              </div>
+              <div class="interest-item">
+                <div class="interest-icon">🌐</div>
+                <div class="interest-name">IoT Systems</div>
+                <div class="interest-desc">Sensor networks, edge computing</div>
+              </div>
+              <div class="interest-item">
+                <div class="interest-icon">📊</div>
+                <div class="interest-name">DSA</div>
+                <div class="interest-desc">Problem solving, algorithms, efficiency</div>
+              </div>
+              <div class="interest-item">
+                <div class="interest-icon">🏗️</div>
+                <div class="interest-name">Full Stack</div>
+                <div class="interest-desc">Spring Boot → React pipeline</div>
+              </div>
+              <div class="interest-item">
+                <div class="interest-icon">🔭</div>
+                <div class="interest-name">Open Source</div>
+                <div class="interest-desc">Contributing, reading, learning</div>
+              </div>
+              <div class="interest-item">
+                <div class="interest-icon">🧬</div>
+                <div class="interest-name">Digital Twin</div>
+                <div class="interest-desc">Virtual modeling of physical systems</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="reveal">
+            <h3>Education</h3>
+            <div id="edu-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/shared.js"></script>
+  <script>
+    document.getElementById('nav-mount').innerHTML = buildNav('../');
+    document.getElementById('footer-mount').innerHTML = buildFooter('../');
+
+    const eduList = document.getElementById('edu-list');
+    eduList.innerHTML = PORTFOLIO_DATA.education.map(e => `
+      <div class="edu-card">
+        <div class="edu-icon">🎓</div>
+        <div>
+          <div class="edu-degree">${e.degree}</div>
+          <div class="edu-institution">${e.institution} · ${e.university}</div>
+          <div class="edu-meta">${e.period} · ${e.status}</div>
+        </div>
+      </div>
+    `).join('');
+  </script>
+</body>
+</html>

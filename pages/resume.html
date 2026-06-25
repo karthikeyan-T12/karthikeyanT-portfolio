@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume — Karthikeyan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    try {
+      if ((localStorage.getItem('theme') || 'dark') === 'light') {
+        document.documentElement.classList.add('light-mode');
+      }
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="../css/main.css" />
+  <style>
+    .page-hero { padding: 5rem 0 3rem; border-bottom: 1px solid var(--border); }
+
+    .resume-layout {
+      display: grid; grid-template-columns: 1fr 320px;
+      gap: 3rem; padding: 4rem 0;
+    }
+
+    /* Resume doc */
+    .resume-doc {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); overflow: hidden;
+    }
+    .resume-doc-header {
+      background: var(--bg-surface); border-bottom: 1px solid var(--border);
+      padding: 2rem 2.5rem;
+    }
+    .resume-doc-name {
+      font-family: var(--font-display); font-size: 1.75rem; font-weight: 700;
+      color: var(--text-primary); letter-spacing: -0.02em;
+    }
+    .resume-doc-role { color: var(--emerald); font-size: 0.9rem; font-family: var(--font-mono); margin-top: 0.25rem; }
+    .resume-doc-contact {
+      display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 0.85rem;
+    }
+    .resume-doc-contact a { font-size: 0.82rem; color: var(--text-secondary); transition: color var(--dur); }
+    .resume-doc-contact a:hover { color: var(--emerald); }
+
+    .resume-doc-body { padding: 2rem 2.5rem; }
+    .resume-section { margin-bottom: 2.25rem; }
+    .resume-section-title {
+      font-family: var(--font-display); font-size: 0.75rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--text-muted); border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem; margin-bottom: 1.25rem;
+    }
+    .resume-entry { margin-bottom: 1.25rem; }
+    .resume-entry-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      flex-wrap: wrap; gap: 0.25rem;
+    }
+    .resume-entry-title { font-weight: 600; color: var(--text-primary); font-size: 0.95rem; }
+    .resume-entry-org { color: var(--text-secondary); font-size: 0.85rem; }
+    .resume-entry-period {
+      font-family: var(--font-mono); font-size: 0.75rem;
+      color: var(--text-muted); white-space: nowrap;
+    }
+    .resume-bullet { list-style: none; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.35rem; }
+    .resume-bullet li {
+      font-size: 0.85rem; color: var(--text-secondary);
+      display: flex; gap: 0.5rem;
+    }
+    .resume-bullet li::before { content: '·'; color: var(--emerald); font-weight: bold; flex-shrink: 0; }
+
+    .skill-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    /* Sidebar */
+    .resume-sidebar { }
+    .sidebar-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .sidebar-card h4 {
+      font-family: var(--font-display); font-size: 0.8rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);
+      margin-bottom: 0.85rem;
+    }
+    /* Achievement Lightbox overlay (content styled via .achievement-lightbox-* in main.css) */
+    .cert-lightbox {
+      position: fixed; inset: 0; background: rgba(8,12,14,0.95);
+      backdrop-filter: blur(12px); z-index: 3000;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .cert-lightbox.open { opacity: 1; pointer-events: all; }
+    .cert-lightbox-inner {
+      background: var(--bg-card); border: 1px solid var(--border-bright);
+      border-radius: var(--radius-lg); max-width: 760px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      transform: scale(0.95); transition: transform 0.3s var(--ease);
+    }
+    .cert-lightbox.open .cert-lightbox-inner { transform: scale(1); }
+
+    /* Achievements & Leadership gallery */
+    .achv-filters {
+      display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.75rem;
+    }
+    .achv-filter-chip {
+      font-family: var(--font-mono); font-size: 0.78rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text-secondary); border-radius: 100px;
+      padding: 0.4rem 1rem; cursor: pointer;
+      transition: border-color var(--dur), color var(--dur), background var(--dur);
+    }
+    .achv-filter-chip:hover { border-color: var(--border-bright); color: var(--text-primary); }
+    .achv-filter-chip.active {
+      background: var(--emerald-glow2); border-color: var(--border-bright); color: var(--emerald);
+    }
+    .achv-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    @media (max-width: 1180px) { .achv-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 700px) { .achv-grid { grid-template-columns: 1fr; } }
+    .achv-card {
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.4rem;
+      cursor: pointer; transition: border-color var(--dur), transform var(--dur);
+      display: flex; flex-direction: column;
+    }
+    .achv-card:hover { border-color: var(--border-bright); transform: translateY(-3px); }
+    .achv-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.6rem; }
+    .achv-category-tag {
+      font-family: var(--font-mono); font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      background: var(--emerald-glow2); border: 1px solid var(--border);
+      color: var(--emerald); padding: 0.15rem 0.5rem; border-radius: 5px;
+      white-space: nowrap;
+    }
+    .achv-date { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); white-space: nowrap; }
+    .achv-title { font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+    .achv-org { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 0.7rem; }
+    .achv-desc {
+      font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;
+      margin-bottom: 0.85rem;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .achv-skills { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: auto; }
+    .achv-more-link {
+      font-size: 0.78rem; color: var(--emerald); margin-top: 0.85rem;
+      display: inline-flex; align-items: center; gap: 0.3rem;
+    }
+    .achv-load-more-wrap { display: flex; justify-content: center; margin-top: 2.5rem; }
+    .achv-empty {
+      text-align: center; padding: 3rem 1.5rem;
+      border: 1px dashed var(--border); border-radius: var(--radius-lg);
+      color: var(--text-muted); font-size: 0.88rem; grid-column: 1 / -1;
+    }
+    .achv-lightbox-impact {
+      background: var(--emerald-glow2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1rem 1.25rem;
+      font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;
+    }
+    .achv-lightbox-impact strong { color: var(--emerald); }
+
+    @media (max-width: 900px) {
+      .resume-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loader"><div class="loader-ring"></div></div>
+  <div id="nav-mount"></div>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <span class="section-label">Credentials</span>
+        <h1 class="section-title">Resume & <em>achievements</em></h1>
+        <p class="section-desc">My education, skills, and experience in one place.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="resume-layout">
+          <!-- Resume doc -->
+          <div class="resume-doc reveal">
+            <div class="resume-doc-header">
+              <div class="resume-doc-name">Karthikeyan</div>
+              <div class="resume-doc-role">// Computer Science (IoT) · Java Developer · Future Full Stack</div>
+              <div class="resume-doc-contact" id="doc-contact"></div>
+            </div>
+            <div class="resume-doc-body">
+
+              <div class="resume-section">
+                <div class="resume-section-title">Education</div>
+                <div id="edu-entries"></div>
+              </div>
+
+              <div class="resume-section">
+                <div class="resume-section-title">Projects</div>
+                <div id="project-entries"></div>
+                <a href="projects.html" style="font-size:0.82rem;color:var(--emerald);display:inline-flex;align-items:center;gap:0.3rem;margin-top:0.25rem">View all projects →</a>
+              </div>
+
+              <div class="resume-section">
+                <div class="resume-section-title">Technical Skills</div>
+                <div id="skill-chips-wrap"></div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <aside class="reveal">
+            <div style="margin-bottom:1rem">
+              <a href="../assets/resume.pdf" download class="btn btn-primary" style="width:100%;justify-content:center">
+                ↓ Download Resume (PDF)
+              </a>
+            </div>
+
+            <div class="sidebar-card">
+              <h4>Contact</h4>
+              <div id="contact-links" style="display:flex;flex-direction:column;gap:0.5rem"></div>
+            </div>
+          </aside>
+        </div>
+
+        <!-- Achievements & Leadership — full width, scales to unlimited entries -->
+        <div class="cert-gallery-section reveal">
+          <div class="cert-gallery-header">
+            <div>
+              <span class="section-label" style="margin-bottom:0.35rem">Beyond certificates</span>
+              <h2 class="section-title" style="font-size:1.6rem">Achievements & <em>Leadership</em></h2>
+            </div>
+            <span class="cert-gallery-count" id="achv-count"></span>
+          </div>
+          <div class="achv-filters" id="achv-filters"></div>
+          <div class="achv-grid" id="achv-grid"></div>
+          <div class="achv-load-more-wrap" id="achv-load-more-wrap" style="display:none">
+            <button class="btn btn-outline" id="achv-load-more-btn">Load More →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <!-- Achievement Detail Lightbox -->
+  <div class="cert-lightbox" id="cert-lightbox">
+    <div class="cert-lightbox-inner" id="cert-lightbox-inner"></div>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/shared.js"></script>
+  <script>
+    document.getElementById('nav-mount').innerHTML = buildNav('../');
+    document.getElementById('footer-mount').innerHTML = buildFooter('../');
+
+    const d = PORTFOLIO_DATA;
+
+    // Contact info
+    document.getElementById('doc-contact').innerHTML = `
+      <a href="mailto:${d.email}">${d.email}</a>
+      <a href="${d.github}" target="_blank">GitHub</a>
+      <a href="${d.linkedin}" target="_blank">LinkedIn</a>
+    `;
+
+    document.getElementById('contact-links').innerHTML = [
+      { icon: '✉', href: `mailto:${d.email}`, label: d.email },
+      { icon: '⌥', href: d.github, label: 'GitHub Profile' },
+      { icon: '🔗', href: d.linkedin, label: 'LinkedIn Profile' },
+    ].map(c => `<a href="${c.href}" target="_blank" rel="noopener"
+      style="display:flex;gap:0.5rem;font-size:0.83rem;color:var(--text-secondary);transition:color 0.2s"
+      onmouseover="this.style.color='var(--emerald)'" onmouseout="this.style.color='var(--text-secondary)'">
+      <span>${c.icon}</span>${c.label}</a>`).join('');
+
+    // Education
+    document.getElementById('edu-entries').innerHTML = d.education.map(e => `
+      <div class="resume-entry">
+        <div class="resume-entry-header">
+          <div>
+            <div class="resume-entry-title">${e.degree}</div>
+            <div class="resume-entry-org">${e.institution} · ${e.university}</div>
+          </div>
+          <div class="resume-entry-period">${e.period}</div>
+        </div>
+        <ul class="resume-bullet">
+          ${e.highlights.map(h => `<li>${h}</li>`).join('')}
+        </ul>
+      </div>
+    `).join('');
+
+    // Projects — top 3 featured only
+    document.getElementById('project-entries').innerHTML = d.projects.filter(p => p.featured).slice(0, 3).map(p => `
+      <div class="resume-entry">
+        <div class="resume-entry-header">
+          <div>
+            <div class="resume-entry-title">${p.title}</div>
+            <div class="resume-entry-org">${p.tags.join(', ')}</div>
+          </div>
+          ${p.github ? `<a href="${p.github}" target="_blank" style="font-size:0.75rem;color:var(--emerald)">GitHub ↗</a>` : ''}
+        </div>
+        <ul class="resume-bullet">
+          <li>${p.tagline}</li>
+          ${(p.highlights || []).slice(0,2).map(h => `<li>${h}</li>`).join('')}
+        </ul>
+      </div>
+    `).join('');
+
+    // Skills
+    const allSkills = d.skills.flatMap(cat => cat.items.map(i => i.name));
+    document.getElementById('skill-chips-wrap').innerHTML =
+      `<div class="skill-chips">${allSkills.map(s => `<span class="tag">${s}</span>`).join('')}</div>`;
+
+    // Achievements & Leadership
+    const achievements = d.achievements || [];
+    const PAGE_SIZE = 6;
+    let activeCategory = 'All';
+    let visibleCount = PAGE_SIZE;
+
+    const achvGrid = document.getElementById('achv-grid');
+    const achvCount = document.getElementById('achv-count');
+    const achvFilters = document.getElementById('achv-filters');
+    const loadMoreWrap = document.getElementById('achv-load-more-wrap');
+    const loadMoreBtn = document.getElementById('achv-load-more-btn');
+
+    function getCategories() {
+      const cats = new Set(achievements.map(a => a.category || 'General'));
+      return ['All', ...Array.from(cats)];
+    }
+
+    function renderFilters() {
+      if (!achvFilters) return;
+      const cats = getCategories();
+      if (cats.length <= 2) { achvFilters.style.display = 'none'; return; }
+      achvFilters.innerHTML = cats.map(cat => `
+        <span class="achv-filter-chip${cat === activeCategory ? ' active' : ''}" data-cat="${cat}">${cat}</span>
+      `).join('');
+      achvFilters.querySelectorAll('.achv-filter-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          activeCategory = chip.dataset.cat;
+          visibleCount = PAGE_SIZE;
+          renderFilters();
+          renderGrid();
+        });
+      });
+    }
+
+    function getFiltered() {
+      return activeCategory === 'All'
+        ? achievements
+        : achievements.filter(a => (a.category || 'General') === activeCategory);
+    }
+
+    function renderGrid() {
+      const filtered = getFiltered();
+
+      if (achvCount) {
+        achvCount.textContent = achievements.length
+          ? `${achievements.length} entr${achievements.length === 1 ? 'y' : 'ies'}`
+          : '';
+      }
+
+      if (!filtered.length) {
+        achvGrid.innerHTML = `<div class="achv-empty">No achievements in this category yet — add entries to achievements in data.js to populate this section.</div>`;
+        loadMoreWrap.style.display = 'none';
+        return;
+      }
+
+      const visible = filtered.slice(0, visibleCount);
+      achvGrid.innerHTML = visible.map(a => {
+        const skills = a.skills || [];
+        const idx = achievements.indexOf(a);
+        return `
+        <div class="achv-card" onclick="openAchievementDetail(${idx})">
+          <div class="achv-card-top">
+            <span class="achv-category-tag">${a.category || 'General'}</span>
+            <span class="achv-date">${a.date}</span>
+          </div>
+          <div class="achv-title">${a.title}</div>
+          <div class="achv-org">${a.organization}</div>
+          <div class="achv-desc">${a.description || ''}</div>
+          <div class="achv-skills">
+            ${skills.slice(0, 3).map(s => `<span class="achievement-skill-chip">${s}</span>`).join('')}
+          </div>
+          ${a.impact ? `<span class="achv-more-link">View impact & details →</span>` : ''}
+        </div>
+      `;
+      }).join('');
+
+      loadMoreWrap.style.display = (visibleCount < filtered.length) ? 'flex' : 'none';
+    }
+
+    renderFilters();
+    renderGrid();
+
+    loadMoreBtn?.addEventListener('click', () => {
+      visibleCount += PAGE_SIZE;
+      renderGrid();
+    });
+
+    function openAchievementDetail(index) {
+      const a = achievements[index];
+      if (!a) return;
+      const skills = a.skills || [];
+      document.getElementById('cert-lightbox-inner').innerHTML = `
+        <div class="achievement-lightbox-header">
+          <div class="achievement-lightbox-title">${a.title}</div>
+          <button class="achievement-lightbox-close" onclick="closeCertLightbox()">✕</button>
+        </div>
+        <div class="achievement-lightbox-body">
+          ${a.description ? `
+          <div class="achievement-lightbox-section">
+            <h4>Description</h4>
+            <p>${a.description}</p>
+          </div>` : ''}
+          ${skills.length ? `
+          <div class="achievement-lightbox-section">
+            <h4>Skills Used</h4>
+            <div>${skills.map(s => `<span class="achievement-skill-chip">${s}</span>`).join('')}</div>
+          </div>` : ''}
+          ${a.impact ? `
+          <div class="achievement-lightbox-section">
+            <h4>Impact / Outcome</h4>
+            <div class="achv-lightbox-impact"><strong>→</strong> ${a.impact}</div>
+          </div>` : ''}
+          <div class="achievement-lightbox-meta">
+            <div><strong>Organization</strong>${a.organization}</div>
+            <div><strong>Date</strong>${a.date}</div>
+            <div><strong>Category</strong>${a.category || 'General'}</div>
+          </div>
+        </div>
+      `;
+      document.getElementById('cert-lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCertLightbox() {
+      document.getElementById('cert-lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('cert-lightbox').addEventListener('click', e => {
+      if (e.target === document.getElementById('cert-lightbox')) closeCertLightbox();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCertLightbox(); });
+  </script>
+</body>
+</html>

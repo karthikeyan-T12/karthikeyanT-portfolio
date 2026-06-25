@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Karthikeyan — Computer Science (IoT) student, Java developer, and future full-stack engineer." />
+  <title>Karthikeyan — CS (IoT) Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    try {
+      if ((localStorage.getItem('theme') || 'dark') === 'light') {
+        document.documentElement.classList.add('light-mode');
+      }
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    /* ── Hero ──────────────────────────────────────────── */
+    .hero {
+      position: relative; min-height: calc(100vh - var(--nav-h));
+      display: flex; align-items: center;
+      overflow: hidden;
+    }
+    #hero-canvas {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      pointer-events: none;
+    }
+    .hero-glow {
+      position: absolute; width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16,185,129,0.07) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -60%);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 2; padding: 4rem 0; }
+    .hero-inner {
+      display: grid; grid-template-columns: 1.15fr auto;
+      gap: 3.5rem; align-items: center;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-mono); font-size: 0.8rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--emerald); margin-bottom: 1.25rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block; width: 32px; height: 1px;
+      background: var(--emerald);
+    }
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      font-weight: 700; letter-spacing: -0.04em;
+      line-height: 1.05; color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+    .hero-name .cursor {
+      display: inline-block; width: 3px; height: 0.85em;
+      background: var(--emerald); margin-left: 2px;
+      vertical-align: middle; border-radius: 2px;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+    .hero-title {
+      font-family: var(--font-display); font-weight: 500;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: var(--text-secondary); margin-bottom: 1.25rem;
+    }
+    .hero-title strong { color: var(--emerald); font-weight: 600; }
+    .hero-degree {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-mono); font-size: 0.8rem;
+      color: var(--text-secondary);
+      background: var(--emerald-glow2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.4rem 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+    .hero-degree-icon { color: var(--emerald); font-size: 0.9rem; }
+    .hero-tagline {
+      max-width: 520px; color: var(--text-secondary);
+      font-size: clamp(0.95rem, 2vw, 1.05rem);
+      line-height: 1.7; margin-bottom: 2.5rem;
+    }
+    .hero-actions { display: flex; gap: 0.85rem; flex-wrap: wrap; }
+
+    /* Quick Highlights */
+    .highlights-row {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      margin-top: 1.75rem;
+    }
+    .highlight-chip {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 100px; padding: 0.4rem 0.9rem;
+      font-size: 0.8rem; color: var(--text-secondary);
+      transition: border-color var(--dur), transform var(--dur), color var(--dur);
+    }
+    .highlight-chip:hover {
+      border-color: var(--border-bright); color: var(--text-primary);
+      transform: translateY(-2px);
+    }
+    .highlight-chip-icon { font-size: 0.95rem; }
+
+    /* Status indicator */
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--emerald-glow2); border: 1px solid var(--border);
+      border-radius: 100px; padding: 0.35rem 0.9rem;
+      font-size: 0.78rem; color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--emerald);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+      50% { box-shadow: 0 0 0 5px rgba(16,185,129,0); }
+    }
+
+    /* ── Hero Profile Photo ─────────────────────────── */
+    .hero-photo-wrap {
+      position: relative; flex-shrink: 0;
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+    }
+    .hero-photo-ring {
+      position: absolute; inset: -14px;
+      border-radius: 34px;
+      border: 1px solid rgba(16,185,129,0.25);
+    }
+    .hero-photo-ring::before {
+      content: '';
+      position: absolute; top: -1px; left: 50%;
+      width: 8px; height: 8px;
+      background: var(--emerald); border-radius: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 12px rgba(16,185,129,0.8);
+    }
+    @keyframes spin-slow { to { transform: rotate(360deg); } }
+    .hero-photo-outer {
+      width: 380px; height: 470px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(16,185,129,0.28), rgba(16,185,129,0.05));
+      padding: 3px;
+      box-shadow:
+        0 0 0 1px rgba(16,185,129,0.22),
+        0 0 60px rgba(16,185,129,0.18),
+        0 30px 80px rgba(0,0,0,0.45);
+    }
+    .hero-photo-glass {
+      width: 100%; height: 100%;
+      border-radius: 26px;
+      background: linear-gradient(160deg, rgba(17,24,32,0.92), rgba(13,20,23,0.97));
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(16,185,129,0.18);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-photo-glass::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 45%;
+      background: linear-gradient(180deg, rgba(16,185,129,0.09), transparent);
+      pointer-events: none; z-index: 1;
+    }
+    .hero-photo-glass::after {
+      content: '';
+      position: absolute; inset: 0;
+      box-shadow: inset 0 0 40px rgba(0,0,0,0.25);
+      pointer-events: none; z-index: 1;
+    }
+    .hero-photo-glass img {
+      width: 100%; height: 100%; object-fit: cover;
+      border-radius: 26px;
+      position: relative;
+    }
+    .hero-photo-placeholder {
+      font-size: 8rem; opacity: 0.5;
+      line-height: 1;
+    }
+    .hero-photo-glow {
+      position: absolute; width: 460px; height: 540px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16,185,129,0.16) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-photo-wrap { order: -1; margin: 0 auto; }
+      .hero-photo-outer { width: 280px; height: 350px; }
+      .hero-photo-placeholder { font-size: 5.5rem; }
+    }
+    @media (max-width: 480px) {
+      .hero-photo-outer { width: 230px; height: 290px; border-radius: 22px; }
+      .hero-photo-glass { border-radius: 20px; }
+      .hero-photo-glass img { border-radius: 20px; }
+      .hero-photo-ring { border-radius: 28px; }
+    }
+
+    /* ── About preview ──────────────────────────────── */
+    .about-preview {
+      display: grid; grid-template-columns: 1fr;
+      gap: 1.5rem; align-items: center;
+      max-width: 760px; margin: 0 auto;
+    }
+    .about-text p {
+      color: var(--text-secondary); margin-bottom: 1.15rem;
+      line-height: 1.85; font-size: clamp(1rem, 1.4vw, 1.08rem);
+    }
+    .about-stats {
+      display: flex; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap;
+    }
+    .stat { }
+    .stat-num {
+      font-family: var(--font-display); font-size: 2rem; font-weight: 700;
+      color: var(--emerald);
+    }
+    .stat-label { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* ── Skills preview ─────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .skill-card { padding: 1.5rem; }
+    .skill-card-header {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .skill-icon { font-size: 1.4rem; }
+    .skill-category {
+      font-family: var(--font-display); font-weight: 600;
+      font-size: 0.95rem; color: var(--text-primary);
+    }
+    .skill-item {
+      margin-bottom: 1rem;
+    }
+    .skill-meta {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 0.35rem;
+    }
+    .skill-name { font-size: 0.85rem; color: var(--text-secondary); }
+
+    /* ── Projects preview ───────────────────────────── */
+    .projects-preview-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .project-card-preview { padding: 1.75rem; }
+    .project-thumb {
+      aspect-ratio: 16/9; background: var(--bg-surface);
+      border-radius: var(--radius); margin-bottom: 1.25rem;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border); font-size: 2.5rem;
+      position: relative; overflow: hidden;
+    }
+    .project-thumb::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--emerald-glow2), transparent 60%);
+    }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.85rem; }
+    .project-title {
+      font-family: var(--font-display); font-size: 1.15rem; font-weight: 600;
+      color: var(--text-primary); margin-bottom: 0.5rem;
+    }
+    .project-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 1.25rem; }
+    .project-links { display: flex; gap: 0.6rem; }
+
+    @media (max-width: 768px) {
+      .about-preview { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loader"><div class="loader-ring"></div></div>
+  <div id="nav-mount"></div>
+
+  <main>
+    <!-- ── Hero ───────────────────────────────────────── -->
+    <section class="hero">
+      <div class="hero-glow"></div>
+      <canvas id="hero-canvas"></canvas>
+      <div class="container hero-content">
+        <div class="hero-inner">
+          <div class="hero-left">
+            <div class="hero-eyebrow">Computer Science · IoT · Java</div>
+            <h1 class="hero-name">Karthikeyan.T<span class="cursor"></span></h1>
+            <p class="hero-title">
+              CS (IoT) Student <strong>· Java Developer</strong>
+            </p>
+            <div class="hero-degree" id="hero-degree">
+              <span class="hero-degree-icon">🎓</span>
+              <span id="hero-degree-text"></span>
+            </div>
+            <p class="hero-tagline" id="hero-summary">
+              Building software, exploring IoT systems, and continuously learning new technologies.
+            </p>
+            <div class="hero-actions">
+              <a href="pages/projects.html" class="btn btn-primary">View Projects →</a>
+              <a href="pages/contact.html" class="btn btn-outline">Let's Talk</a>
+              <a href="assets/resume.pdf" download class="btn btn-ghost">↓ Resume</a>
+            </div>
+            <div class="highlights-row" id="highlights-row"></div>
+          </div>
+          <div class="hero-photo-wrap" id="hero-photo-wrap">
+            <div class="hero-photo-glow"></div>
+            <div class="hero-photo-ring"></div>
+            <div class="hero-photo-outer">
+              <div class="hero-photo-glass" id="hero-photo-glass">
+                <!-- Profile photo renders here via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── About Preview ──────────────────────────────── -->
+    <section id="about-preview" style="background:var(--bg-surface)">
+      <div class="container">
+        <div class="about-preview">
+          <div class="about-text reveal">
+            <span class="section-label">Who I am</span>
+            <h2 class="section-title">Turning curiosity into <em>code</em></h2>
+            <p>
+              I'm a Computer Science (IoT) student with a deep interest in software development,
+              connected systems, and solving real-world problems through code.
+            </p>
+            <p>
+              My core focus is Java and DSA — building strong programming fundamentals while
+              actively exploring IoT architectures and Digital Twin research as part of my B.Tech specialization.
+            </p>
+            <p>
+              Every project I build is a step toward becoming a well-rounded software engineer.
+            </p>
+            <div class="about-stats">
+              <div class="stat">
+                <div class="stat-num">2+</div>
+                <div class="stat-label">Projects shipped</div>
+              </div>
+              <div class="stat">
+                <div class="stat-num">4+</div>
+                <div class="stat-label">Languages / tools</div>
+              </div>
+              <div class="stat">
+                <div class="stat-num">∞</div>
+                <div class="stat-label">Still learning</div>
+              </div>
+            </div>
+            <a href="pages/about.html" class="btn btn-outline" style="margin-top:1.75rem">Full Story →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Projects Preview ───────────────────────────── -->
+    <section>
+      <div class="container">
+        <span class="section-label reveal">Projects</span>
+        <h2 class="section-title reveal">Things I've <em>built</em></h2>
+        <p class="section-desc reveal">Real projects with real code. More coming as I keep shipping.</p>
+        <div class="projects-preview-grid" id="projects-preview"></div>
+        <div style="text-align:center;margin-top:2.5rem" class="reveal">
+          <a href="pages/projects.html" class="btn btn-primary">All Projects →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Skills Preview ─────────────────────────────── -->
+    <section id="skills" style="background:var(--bg-surface)">
+      <div class="container">
+        <span class="section-label reveal">Skills</span>
+        <h2 class="section-title reveal">What I work with</h2>
+        <p class="section-desc reveal">A snapshot of my current skills and what I'm actively building toward.</p>
+        <div class="skills-grid" id="skills-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/shared.js"></script>
+  <script>
+    // Inject nav & footer
+    document.getElementById('nav-mount').innerHTML = buildNav('');
+    document.getElementById('footer-mount').innerHTML = buildFooter('');
+
+    // Skills grid
+    function renderSkills() {
+      const grid = document.getElementById('skills-grid');
+      if (!grid) return;
+      grid.innerHTML = PORTFOLIO_DATA.skills.map(cat => `
+        <div class="card skill-card reveal">
+          <div class="skill-card-header">
+            <span class="skill-icon">${cat.icon}</span>
+            <span class="skill-category">${cat.category}</span>
+          </div>
+          ${cat.items.map(item => `
+            <div class="skill-item">
+              <div class="skill-meta">
+                <span class="skill-name">${item.name}</span>
+                ${item.badge ? `<span class="badge">${item.badge}</span>` : ''}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `).join('');
+      initReveal();
+    }
+
+    // Projects preview
+    function renderProjectsPreview() {
+      const el = document.getElementById('projects-preview');
+      if (!el) return;
+      const icons = { 'java': '☕', 'python': '🐍', 'IoT': '🌐', default: '💻' };
+      el.innerHTML = PORTFOLIO_DATA.projects.filter(p => p.featured).slice(0, 3).map(p => {
+        const icon = Object.keys(icons).find(k => p.tags.some(t => t.includes(k))) || 'default';
+        return `
+          <div class="card project-card-preview reveal">
+            <div class="project-thumb">${icons[icon]}</div>
+            <div class="project-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+            <h3 class="project-title">${p.title}</h3>
+            <p class="project-desc">${p.tagline}</p>
+            <div class="project-links">
+              ${p.github ? `<a href="${p.github}" target="_blank" rel="noopener" class="btn btn-outline btn-sm">GitHub ↗</a>` : ''}
+              ${p.demo ? `<a href="${p.demo}" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Demo ↗</a>` : ''}
+              <a href="pages/projects.html#${p.id}" class="btn btn-ghost btn-sm">Details →</a>
+            </div>
+          </div>
+        `;
+      }).join('');
+      initReveal();
+    }
+
+    // Hero degree, summary & quick highlights
+    function renderHeroExtras() {
+      const degreeEl = document.getElementById('hero-degree-text');
+      if (degreeEl && PORTFOLIO_DATA.degree) degreeEl.textContent = PORTFOLIO_DATA.degree;
+
+      const summaryEl = document.getElementById('hero-summary');
+      if (summaryEl && PORTFOLIO_DATA.summary) summaryEl.textContent = PORTFOLIO_DATA.summary;
+
+      const row = document.getElementById('highlights-row');
+      if (row && PORTFOLIO_DATA.highlights) {
+        row.innerHTML = PORTFOLIO_DATA.highlights.map(h => `
+          <span class="highlight-chip"><span class="highlight-chip-icon">${h.icon}</span>${h.label}</span>
+        `).join('');
+      }
+    }
+
+    renderSkills();
+    renderProjectsPreview();
+    renderHeroExtras();
+    initParticles('hero-canvas');
+
+    // Render hero profile photo
+    const glass = document.getElementById('hero-photo-glass');
+    if (glass) {
+      if (PORTFOLIO_DATA.profilePhoto) {
+        glass.innerHTML = `<img src="${PORTFOLIO_DATA.profilePhoto}" alt="${PORTFOLIO_DATA.name}" />`;
+      } else {
+        glass.innerHTML = `<div class="hero-photo-placeholder">👨‍💻</div>`;
+      }
+    }
+  </script>
+</body>
+</html>

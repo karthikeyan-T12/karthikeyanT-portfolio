@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Karthikeyan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    try {
+      if ((localStorage.getItem('theme') || 'dark') === 'light') {
+        document.documentElement.classList.add('light-mode');
+      }
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="../css/main.css" />
+  <style>
+    .page-hero { padding: 5rem 0 3rem; border-bottom: 1px solid var(--border); }
+
+    /* ── Project cards ───────────────────────────────── */
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2rem; margin-top: 3rem;
+    }
+    .project-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); overflow: hidden;
+      transition: border-color var(--dur), transform var(--dur), box-shadow var(--dur);
+      cursor: pointer;
+    }
+    .project-card:hover {
+      border-color: var(--border-bright);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(16,185,129,0.08);
+    }
+    .project-card.featured { border-color: rgba(16,185,129,0.2); }
+    .project-header {
+      padding: 0;
+      aspect-ratio: 16/9; background: var(--bg-surface);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem; position: relative; overflow: hidden;
+    }
+    .project-header::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(16,185,129,0.05), transparent 70%);
+    }
+    .featured-badge {
+      position: absolute; top: 0.85rem; right: 0.85rem;
+      background: var(--emerald); color: #040a07;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 6px;
+    }
+    .project-body { padding: 1.5rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.85rem; }
+    .project-title {
+      font-family: var(--font-display); font-size: 1.2rem; font-weight: 700;
+      color: var(--text-primary); margin-bottom: 0.5rem;
+    }
+    .project-tagline { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 1.25rem; }
+    .project-links { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+    /* ── Modal ───────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(8,12,14,0.92);
+      backdrop-filter: blur(8px); z-index: 2000;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--bg-card); border: 1px solid var(--border-bright);
+      border-radius: var(--radius-lg); width: 100%; max-width: 720px;
+      max-height: 90vh; overflow-y: auto;
+      transform: translateY(20px); transition: transform 0.3s var(--ease);
+    }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal-header {
+      padding: 1.75rem; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;
+      position: sticky; top: 0; background: var(--bg-card); z-index: 1;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+    .modal-title {
+      font-family: var(--font-display); font-size: 1.4rem; font-weight: 700;
+      color: var(--text-primary);
+    }
+    .modal-close {
+      background: none; border: 1px solid var(--border);
+      border-radius: 8px; width: 36px; height: 36px;
+      cursor: pointer; color: var(--text-secondary); font-size: 1.1rem;
+      flex-shrink: 0; transition: all var(--dur);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .modal-close:hover { color: var(--text-primary); border-color: var(--border-bright); }
+    .modal-body { padding: 1.75rem; }
+    .modal-section { margin-bottom: 2rem; }
+    .modal-section h4 {
+      font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--emerald); margin-bottom: 0.85rem;
+    }
+    .modal-section p { color: var(--text-secondary); line-height: 1.75; }
+    .modal-img-placeholder {
+      aspect-ratio: 16/9; background: var(--bg-surface);
+      border: 1px dashed var(--border); border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted); font-size: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+    .bullet-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .bullet-list li {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      font-size: 0.9rem; color: var(--text-secondary);
+    }
+    .bullet-list li::before { content: '→'; color: var(--emerald); flex-shrink: 0; }
+    .modal-links { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; }
+  </style>
+</head>
+<body>
+  <div id="loader"><div class="loader-ring"></div></div>
+  <div id="nav-mount"></div>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <span class="section-label">Portfolio</span>
+        <h1 class="section-title">Projects I've <em>built</em></h1>
+        <p class="section-desc">Real code. Real problems. Real solutions — in progress and growing.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="projects-grid" id="projects-grid"></div>
+      </div>
+    </section>
+    
+  </main>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal" id="modal-content"></div>
+  </div>
+
+  <div id="footer-mount"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/shared.js"></script>
+  <script>
+    document.getElementById('nav-mount').innerHTML = buildNav('../');
+    document.getElementById('footer-mount').innerHTML = buildFooter('../');
+
+    const emojiMap = { 'Python': '🐍', 'Java': '☕', 'IoT': '🌐', 'Tkinter': '🖥️' };
+    function getEmoji(tags) {
+      for (const k of Object.keys(emojiMap)) {
+        if (tags.some(t => t.includes(k))) return emojiMap[k];
+      }
+      return '💻';
+    }
+
+    function renderProjects() {
+      const grid = document.getElementById('projects-grid');
+      grid.innerHTML = PORTFOLIO_DATA.projects.map(p => `
+        <div class="project-card${p.featured ? ' featured' : ''} reveal" onclick="openModal('${p.id}')" id="card-${p.id}">
+          <div class="project-header">
+            ${getEmoji(p.tags)}
+            ${p.featured ? '<span class="featured-badge">Featured</span>' : ''}
+          </div>
+          <div class="project-body">
+            <div class="project-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+            <h2 class="project-title">${p.title}</h2>
+            <p class="project-tagline">${p.tagline}</p>
+            <div class="project-links" onclick="event.stopPropagation()">
+              ${p.github ? `<a href="${p.github}" target="_blank" rel="noopener" class="btn btn-outline btn-sm">GitHub ↗</a>` : ''}
+              ${p.demo ? `<a href="${p.demo}" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Live Demo ↗</a>` : ''}
+              <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openModal('${p.id}')">Case Study →</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      initReveal();
+    }
+
+    function openModal(id) {
+      const p = PORTFOLIO_DATA.projects.find(x => x.id === id);
+      if (!p) return;
+      const cs = p.caseStudy || {};
+      document.getElementById('modal-content').innerHTML = `
+        <div class="modal-header">
+          <div>
+            <div class="project-tags" style="margin-bottom:0.5rem">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+            <div class="modal-title">${p.title}</div>
+          </div>
+          <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+        </div>
+        <div class="modal-body">
+          ${p.image ? `<img src="${p.image}" alt="${p.title}" style="border-radius:var(--radius);width:100%;margin-bottom:1.5rem">` :
+            `<div class="modal-img-placeholder">📷 Screenshot / Demo GIF coming soon</div>`}
+          <div class="modal-section">
+            <h4>Overview</h4>
+            <p>${p.description}</p>
+          </div>
+          ${p.highlights ? `
+          <div class="modal-section">
+            <h4>Highlights</h4>
+            <ul class="bullet-list">${p.highlights.map(h => `<li>${h}</li>`).join('')}</ul>
+          </div>` : ''}
+          ${cs.problem ? `
+          <div class="modal-section">
+            <h4>Problem Statement</h4>
+            <p>${cs.problem}</p>
+          </div>` : ''}
+          ${cs.components ? `
+          <div class="modal-section">
+            <h4>Components Used</h4>
+            <div style="display:flex;flex-wrap:wrap;gap:0.4rem">${cs.components.map(c => `<span class="tag">${c}</span>`).join('')}</div>
+          </div>` : ''}
+          ${cs.architecturePlaceholder ? `
+          <div class="modal-section">
+            <h4>Architecture Diagram</h4>
+            <div class="modal-img-placeholder" style="font-size:0.8rem">🗺️ Architecture diagram — add your image here</div>
+          </div>` : ''}
+          ${cs.challenges ? `
+          <div class="modal-section">
+            <h4>Challenges Faced</h4>
+            <ul class="bullet-list">${cs.challenges.map(c => `<li>${c}</li>`).join('')}</ul>
+          </div>` : ''}
+          ${cs.lessons ? `
+          <div class="modal-section">
+            <h4>Lessons Learned</h4>
+            <ul class="bullet-list">${cs.lessons.map(l => `<li>${l}</li>`).join('')}</ul>
+          </div>` : ''}
+          <div class="modal-links">
+            ${p.github ? `<a href="${p.github}" target="_blank" rel="noopener" class="btn btn-primary btn-sm">View on GitHub ↗</a>` : ''}
+            ${p.demo ? `<a href="${p.demo}" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Live Demo ↗</a>` : ''}
+          </div>
+        </div>
+      `;
+      document.getElementById('modal-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('modal-overlay').addEventListener('click', e => {
+      if (e.target === document.getElementById('modal-overlay')) closeModal();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // Handle anchor links like #iot-showcase
+    function checkHash() {
+      const id = location.hash.replace('#', '');
+      if (id) { const p = PORTFOLIO_DATA.projects.find(x => x.id === id); if (p) openModal(p.id); }
+    }
+
+    renderProjects();
+    checkHash();
+  </script>
+</body>
+</html>
