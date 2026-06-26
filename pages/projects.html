@@ -151,7 +151,7 @@
     document.getElementById('nav-mount').innerHTML = buildNav('../');
     document.getElementById('footer-mount').innerHTML = buildFooter('../');
 
-    const emojiMap = { 'Python': '🐍', 'Java': '☕', 'IoT': '🌐', 'Tkinter': '🖥️' };
+    const emojiMap = { 'Python': '🐍', 'Java': '☕', 'IoT': '🌐' };
     function getEmoji(tags) {
       for (const k of Object.keys(emojiMap)) {
         if (tags.some(t => t.includes(k))) return emojiMap[k];

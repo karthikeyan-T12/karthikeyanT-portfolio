@@ -240,6 +240,7 @@ function buildFooter(root = '') {
             <li><a href="${root}pages/about.html">About</a></li>
             <li><a href="${root}pages/projects.html">Projects</a></li>
             <li><a href="${root}pages/journey.html">Journey</a></li>
+            <li><a href="${root}pages/resume.html">resume</a></li>
             <li><a href="${root}pages/contact.html">Contact</a></li>
           </ul>
         </div>
@@ -253,7 +254,7 @@ function buildFooter(root = '') {
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© ${new Date().getFullYear()} ${d.name}. Built with care and vanilla JS.</p>
+        <p>© ${new Date().getFullYear()} ${d.name}. Built with care </p>
         <p style="color:var(--emerald);font-size:0.78rem;font-family:var(--font-mono)">// open to opportunities</p>
       </div>
     </div>

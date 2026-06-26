@@ -107,7 +107,7 @@
       <div class="container">
         <span class="section-label">Reach out</span>
         <h1 class="section-title">Let's <em>talk</em></h1>
-        <p class="section-desc">Whether it's an internship, collaboration, or just a conversation about tech — I'm open to it.</p>
+        <p class="section-desc">Whether it's an collaboration , freelance project or just a conversation about tech — I'm open to it.</p>
       </div>
     </section>
 
@@ -129,11 +129,11 @@
             <form class="contact-form" id="contact-form" novalidate>
               <div class="form-group">
                 <label class="form-label" for="name">// Your name</label>
-                <input class="form-input" type="text" id="name" name="name" placeholder="John Doe" required />
+                <input class="form-input" type="text" id="name" name="name" placeholder="please enter your name here " required />
               </div>
               <div class="form-group">
                 <label class="form-label" for="email">// Email address</label>
-                <input class="form-input" type="email" id="email" name="email" placeholder="john@example.com" required />
+                <input class="form-input" type="email" id="email" name="email" placeholder="please enter your email here " required />
               </div>
               <div class="form-group">
                 <label class="form-label" for="subject">// Subject</label>
@@ -173,19 +173,19 @@
               <span class="copy-hint">click to copy</span>
             </div>
 
-            <a href="https://github.com/karthikeyan" target="_blank" rel="noopener" class="contact-card">
+            <a href="https://github.com/karthikeyan-T12" target="_blank" rel="noopener" class="contact-card">
               <div class="contact-icon">⌥</div>
               <div>
                 <div class="contact-label">GitHub</div>
-                <div class="contact-value">github.com/karthikeyan</div>
+                <div class="contact-value">karthikeyan-T12</div>
               </div>
             </a>
 
-            <a href="https://linkedin.com/in/karthikeyan" target="_blank" rel="noopener" class="contact-card">
+            <a href="https://www.linkedin.com/in/karthi-keyan-77b295303/" target="_blank" rel="noopener" class="contact-card">
               <div class="contact-icon">🔗</div>
               <div>
                 <div class="contact-label">LinkedIn</div>
-                <div class="contact-value">linkedin.com/in/karthikeyan</div>
+                <div class="contact-value">karthi keyan</div>
               </div>
             </a>
 
@@ -232,7 +232,7 @@
     // Contact form — Formspree integration
     // SETUP: Replace 'YOUR_FORMSPREE_ID' with your actual Formspree form ID
     // Get one free at https://formspree.io (takes 2 minutes)
-    const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
+    const FORMSPREE_ID = 'https://formspree.io/f/mpqgdpgp';
 
     document.getElementById('contact-form').addEventListener('submit', async function(e) {
       e.preventDefault();
@@ -250,7 +250,7 @@
 
       btn.textContent = 'Sending...'; btn.disabled = true;
 
-      if (FORMSPREE_ID === 'YOUR_FORMSPREE_ID') {
+      if (FORMSPREE_ID === 'https://formspree.io/f/mpqgdpgp') {
         // Demo mode (no Formspree ID set yet)
         setTimeout(() => {
           success.classList.add('show');
@@ -261,7 +261,7 @@
       }
 
       try {
-        const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        const res = await fetch(`https://formspree.io/f/${mpqgdpgp}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify({
