@@ -232,36 +232,25 @@
     // Contact form — Formspree integration
     // SETUP: Replace 'YOUR_FORMSPREE_ID' with your actual Formspree form ID
     // Get one free at https://formspree.io (takes 2 minutes)
-    const FORMSPREE_ID = 'https://formspree.io/f/mpqgdpgp';
+const FORMSPREE_URL = 'https://formspree.io/f/mpqgdpgp';
 
-    document.getElementById('contact-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const btn = document.getElementById('submit-btn');
-      const success = document.getElementById('form-success');
-      const error = document.getElementById('form-error');
-      success.classList.remove('show');
-      error.classList.remove('show');
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  const success = document.getElementById('form-success');
+  const error = document.getElementById('form-error');
+  success.classList.remove('show');
+  error.classList.remove('show');
 
-      // Validate
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const message = document.getElementById('message').value.trim();
-      if (!name || !email || !message) { error.textContent = '✕ Please fill in all required fields.'; error.classList.add('show'); return; }
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const message = document.getElementById('message').value.trim();
+  if (!name || !email || !message) { error.textContent = '✕ Please fill in all required fields.'; error.classList.add('show'); return; }
 
-      btn.textContent = 'Sending...'; btn.disabled = true;
-
-      if (FORMSPREE_ID === 'https://formspree.io/f/mpqgdpgp') {
-        // Demo mode (no Formspree ID set yet)
-        setTimeout(() => {
-          success.classList.add('show');
-          this.reset();
-          btn.textContent = 'Send Message →'; btn.disabled = false;
-        }, 800);
-        return;
-      }
-
-      try {
-        const res = await fetch(`https://formspree.io/f/${mpqgdpgp}`, {
+  btn.textContent = 'Sending...'; btn.disabled = true;
+ 
+  try {
+    const res = await fetch(FORMSPREE_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify({
